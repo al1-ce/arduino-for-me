@@ -7,6 +7,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: var(--main-bg-color);
+    overflow-y: scroll;
 }
 
 #header {
@@ -49,13 +50,18 @@ body {
     flex-direction: column;
 }
 
-#options-container * {
+#options-container > * {
     float: none;
     clear: both;
 }
 
 #boards-suggestion {
     width: 880px;
+    display: flex;
+    justify-content: left;
+}
+
+.filter_buttons {
     display: flex;
     justify-content: left;
 }
@@ -82,9 +88,80 @@ body {
     padding: 0;
 }
 
+.filter-help {
+    position: absolute;
+    right: 8px;
+    bottom: 4px;
+}
+
+.filter-help-text {
+    left: 170px;
+    top: 5px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background-color: rgb(224, 224, 224);
+    padding: 10px;
+    padding-left: 35px;
+    padding-right: 35px;
+    width: 400px;
+}
+
+.filter-help-text p {
+    background-color: transparent;
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+.check-item {
+    clear: both;
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+    align-items: center;
+    width: 100%;
+}
+
+.check-item > * {
+    float: left;
+}
+
+.checkbox {
+    clear: both;
+    display: flex;
+    flex-direction: row;
+    justify-content: baseline;
+    align-items: center;
+    border: none;
+    padding: 0;
+    width: 100%;
+}
+
+.checkbox > .check-graph {
+    width: 20px;
+    height: 20px;
+    margin: 4px;
+    background-size: contain;
+}
+
+.checkbox > .check-graph.unset {
+    background-image: url('../assets/images/checkbox_empty.png');
+    /* background-color: gray; */
+}
+
+.checkbox > .check-graph.include {
+    background-image: url('../assets/images/checkbox_checked.png');
+    /* background-color: green; */
+}
+
+.checkbox > .check-graph.exclude {
+    background-image: url('../assets/images/checkbox_remove.png');
+    /* background-color: red; */
+}
+
 /* Style the button that is used to open and close the collapsible content */
 .collapsable {
-    background-color: #eee;
+    position: relative;
+    background-color: rgb(228, 228, 228);
     color: #444;
     cursor: pointer;
     padding: 10px;
@@ -93,8 +170,11 @@ body {
     text-align: left;
     outline: none;
     font-size: 15px;
-  }
-  
+}
+
+.hover-help:before{content:"⁈"} 
+/* ⁈ */
+
   /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 .active, .collapsable:hover {
     background-color: #ccc;
@@ -109,3 +189,73 @@ body {
     max-height: 0;
     transition: max-height 0.2s ease-out;
 }
+
+
+
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+    margin: 0.2em;
+}
+  
+.dropdown .dropbtn {
+    font-size: 16px;  
+    border: 1px solid transparent;
+    border-radius: 10px;
+    outline: none;
+    color: black;
+    padding: 4px 4px;
+    background-color: rgba(0, 0, 0, 0.055);
+    font-family: inherit;
+    margin: 0;
+    width: 28px;
+    height: 28px;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: rgb(94, 94, 94);
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    /* background-color: #f9f9f9; */
+    min-width: 122.95px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+/* 
+.dropdown-content button {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    display: block;
+    text-align: left;
+    width: 100%;
+    margin: 0px;
+}
+
+.dropdown-content button:hover {
+    background-color: #ddd;
+}
+
+.dropdown-content button:active {
+    background-color: rgb(197, 197, 197);
+} */
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+/* Scrollbar */
+
+::-webkit-scrollbar {width: 4px;height:4px;}
+::-webkit-scrollbar-track {background: #eeee;}
+::-webkit-scrollbar-thumb {background: #888;}
+::-webkit-scrollbar-thumb:hover {background: #555;}
+::-webkit-scrollbar-corner {background: #eeee;}
