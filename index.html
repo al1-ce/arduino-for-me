@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="A small website to help you choose arduino for your needs">
+		<meta name="keywords" content="arduino, app, chooser, choose, which">
+		<meta name="author" content="al1-ce">
+		<title> Arduino For Me </title>
+		<link rel="icon" href="assets/images/favicon.png">
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="js/index.js"></script>
+		<script src="js/json-parser.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="css/index.css">
+		
+	</head>
+	
+	<body>
+        <div id="header">
+            <h1>Which arduino should I choose?</h1>
+        </div>
+        <div id="content">
+            <div id="options-container">
+                <h2>Filters</h2>
+                <div id="filter"></div>
+                <br>
+                <button class="filter_button" onclick="applyFilter()">Apply Filter</button>
+            </div>
+            <div id="boards-suggestion">
+
+            </div>
+        </div>
+	</body>
+</html>

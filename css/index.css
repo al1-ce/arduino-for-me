@@ -1,0 +1,111 @@
+:root {
+    --main-bg-color: #F6F6F6;
+    --container-color: white;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--main-bg-color);
+}
+
+#header {
+    text-align: center;
+    border: 1px solid transparent;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#content {
+    display: flex;
+    justify-content: center;
+}
+
+#content > div {
+    float: left;
+    margin: 1em;
+    padding: 0.1em;
+    background-color: var(--container-color);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    min-height: 300px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#options-container {
+    display: flex;
+    justify-content: top;
+    align-items: center;
+    flex-direction: column;
+    width: 280px;
+    padding: 8px !important;
+}
+
+#filter {
+    background-color: none;
+    border: none;
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    flex-direction: column;
+}
+
+#options-container * {
+    float: none;
+    clear: both;
+}
+
+#boards-suggestion {
+    width: 880px;
+    display: flex;
+    justify-content: left;
+}
+
+.filter_button {
+    background-color: rgb(197, 197, 197);
+    border-color: transparent;
+    border-radius: 10px;
+    padding: 4px 8px;
+    min-width: 100px;
+}
+
+.filter_button:hover {
+    background-color: rgb(214, 214, 214);
+}
+
+.filter_button:active {
+    background-color: rgb(163, 163, 163);
+}
+
+.filter-item {
+    width: 100%;
+    margin-bottom: 4px;
+    padding: 0;
+}
+
+/* Style the button that is used to open and close the collapsible content */
+.collapsable {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+  }
+  
+  /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .collapsable:hover {
+    background-color: #ccc;
+}
+  
+/* Style the collapsible content. Note: hidden by default */
+.col-content {
+    padding: 0 18px;
+    /* display: none; */
+    overflow: hidden;
+    background-color: #f1f1f1;
+    max-height: 0;
+    transition: max-height 0.2s ease-out;
+}
