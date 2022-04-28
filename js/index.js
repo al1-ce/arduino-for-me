@@ -76,11 +76,12 @@ const filter_empty = {
     wireless: [],
 }
 
-let filter_add = filter_empty;
-let filter_remove = filter_empty;
+let filter_add = {};
+let filter_remove = {};
 
 $(function() {
     // document ready
+    clearFilter();
 });
 
 function getBoardOptions() {
@@ -101,9 +102,16 @@ function getBoardOptions() {
                     options[key].push(val);
                 }
             }
+            options[key].sort(function(a, b) {
+                let ia, ib;
+                if (isNaN(ia = parseInt(a)) || isNaN(ib = parseInt(b))) {
+                    return a.localeCompare(b);
+                }
+                return ia - ib;
+              });
         }
     }
-    console.log(options);
+    // console.log(options);
 
     $f.children().remove();
 
@@ -126,7 +134,7 @@ function getBoardOptions() {
         for (let type in options[filterId]) {
             let t = options[filterId][type];
             $d.append(`<div class="check-item">
-                       <button class="checkbox" id="fir-${filterId}-${type}" onclick="toggleCheckbox('fir-${filterId}-${type}')">
+                       <button class="checkbox" id="fir-${filterId}-${type}" onclick="toggleCheckbox('fir-${filterId}-${type}'); checkLive();">
                        <div class="check-graph unset"></div>
                        <div>${t}</div>
                        </button>
@@ -138,21 +146,96 @@ function getBoardOptions() {
 }
 
 function applyFilter() {
+    rating = {};
     let includeBox = $('.include').parent().toArray();
     let excludeBox = $('.exclude').parent().toArray();
+    // let keys = Object.keys(regex);
     for (let box in includeBox) {
         let c = includeBox[box].id.split('-');
-        console.log(`inc: ${c[1]} - ${c[2]}`);
+        // console.log(`inc: ${c[1]} - ${c[2]}`);
+        let key = c[1];
+        let idx = c[2];
+        let val = options[key][idx];
+        if (!(key in filter_add)) filter_add[key] = [];
+        filter_add[key].push(val);
+        // console.log(`${key}: ${options[key][idx]}`)
     }
     for (let box in excludeBox) {
         let c = excludeBox[box].id.split('-');
-        console.log(`exc: ${c[1]} - ${c[2]}`);
+        let key = c[1];
+        let idx = c[2];
+        let val = options[key][idx];
+        if (!(key in filter_remove)) filter_remove[key] = [];
+        filter_remove[key].push(val);
+        // console.log(`exc: ${c[1]} - ${c[2]}`);
     }
+    // console.log(filter_add);
+    // console.log(filter_remove);
+
+    for (let i = 0; i < boards.length; i ++) {
+        let board = boards[i];
+        for (let j = 0; j < filter_order.length; j ++) {
+            let comp = filter_order[j];
+            if (!(i in rating)) {
+                rating[i] = 0;
+            }
+            if (comp in filter_add) {
+                for (let k = 0; k < filter_add[comp].length; k ++) {
+                    if (board[comp].toLowerCase().includes(filter_add[comp][k].toLowerCase())) {
+                        // rating[board.name] ++;
+                        rating[i] ++;
+                    }
+                }
+            }
+            if (comp in filter_remove) {
+                for (let k = 0; k < filter_remove[comp].length; k ++) {
+                    if (board[comp].toLowerCase().includes(filter_remove[comp][k].toLowerCase())) {
+                        // rating[board.name] --;
+                        rating[i] --;
+                    }
+                }
+            }
+        }
+    }
+
+    let keysSorted = Object.keys(rating).sort(function(a,b){return rating[b]-rating[a]});
+    // console.log(keysSorted);
+    let $sugg = $('#boards-suggestion').children().remove();
+    for (let i = 0; i < keysSorted.length; i ++) {
+        let board = boards[keysSorted[i]];
+        addBoard(board, rating[keysSorted[i]]);
+    }
+
+    filter_add = {};
+    filter_remove = {};
+    // console.log(rating);
+}
+
+let liveFilter = 1;
+
+function toggleLiveFilter() {
+    liveFilter = !liveFilter;
+    $('#live-filter').toggleClass('active');
+}
+
+function checkLive() {
+    if (liveFilter) applyFilter();
+}
+
+function addBoard(board, rate) {
+    let $sugg = $('#boards-suggestion');
+    $sugg.append(`
+        <div class="board-show">
+            <h4 class="rating" style="color: ${rate < 0 ? 'darkred' : rate >= 5 ? 'darkgreen' : 'black'};">Score: ${rate}</h2>
+            <h3>${board.name}</h3>
+            <img src="${board.image_url}"></img>
+        </div>
+    `);
 }
 
 function clearFilter() {
-    filter_add = filter_empty;
-    filter_remove = filter_empty;
+    filter_add = {};
+    filter_remove = {};
     $('.exclude').removeClass('exclude').addClass('unset');
     $('.include').removeClass('include').addClass('unset');
     $('.collapsable').next().css('max-height', '0px');
